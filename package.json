@@ -1,0 +1,107 @@
+{
+  "name": "sat-launcher",
+  "version": "1.0.0",
+  "description": "SAT LAUNCHER 1.0.0 — Minecraft Java launcher with one-click automatic updates",
+  "main": "main.js",
+  "private": true,
+  "author": "SAT LAUNCHER",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "dist": "node scripts/secure-build.js --win nsis",
+    "dist:dir": "node scripts/secure-build.js --win dir",
+    "check": "node --check main.js && node --check preload.js && node --check src/renderer.js && node --check src/splash-guard.js && node --check src/core/world-archive.js && node --check src/core/resourcepack-normalizer.js && node --check src/core/instance-content.js && node --check src/core/modrinth-version.js && node --check src/core/modrinth-dependencies.js && node --check src/core/legacy-mod-dependencies.js && node --check src/core/loader-profile.js && node --check src/core/minecraft-version-installed.js && node --check src/core/instance-version-bootstrap.js && node --check src/core/shared-saves.js && node --check src/core/local-skin-config.js && node --check src/core/repository-link-guard.js && node --check src/core/update-error.js && node --check src/core/memory-budget.js && node --check src/core/java-version.js && node --check src/core/graphics-backend-fallback.js && node --check scripts/secure-build.js && node --check scripts/release-config.js && node --test tests/*.test.js",
+    "test:unit": "node --test tests/*.test.js",
+    "release:publish": "node scripts/secure-build.js --win nsis --publish always"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "cheerio": "^1.0.0",
+    "minecraft-launcher-core": "^3.18.2",
+    "msmc": "^5.0.5",
+    "discord-rpc": "^4.0.1",
+    "hls.js": "^1.6.13",
+    "electron-updater": "^6.8.11"
+  },
+  "devDependencies": {
+    "electron": "^34.3.3",
+    "electron-builder": "^26.0.12",
+    "javascript-obfuscator": "^4.1.1"
+  },
+  "build": {
+    "appId": "com.satlauncher.desktop",
+    "productName": "SAT LAUNCHER",
+    "copyright": "Copyright © 2026 SAT LAUNCHER",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "package.json",
+      "!node_modules/.cache/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "SUPPORT.html",
+        "to": "SUPPORT.html"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "SAT-LAUNCHER-${version}-Setup.${ext}",
+      "icon": "src/assets/icons/sat-app.ico",
+      "legalTrademarks": "SAT LAUNCHER",
+      "requestedExecutionLevel": "asInvoker",
+      "signAndEditExecutable": true
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "installerIcon": "src/assets/icons/sat-app.ico",
+      "uninstallerIcon": "src/assets/icons/sat-app.ico",
+      "installerHeaderIcon": "src/assets/icons/sat-app.ico",
+      "uninstallDisplayName": "SAT LAUNCHER",
+      "shortcutName": "SAT LAUNCHER",
+      "license": "SUPPORT.html",
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": true,
+      "menuCategory": "Games",
+      "displayLanguageSelector": false,
+      "installerLanguages": [
+        "ru_RU",
+        "en_US"
+      ],
+      "language": "1049"
+    },
+    "executableName": "SATLAUN",
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/minecraft-launcher-core/**/*",
+      "node_modules/msmc/**/*",
+      "node_modules/discord-rpc/**/*"
+    ],
+    "electronLanguages": [
+      "en-US",
+      "ru"
+    ]
+  },
+  "artifactName": "SAT-LAUNCHER-${version}-Setup.${ext}",
+  "allowScripts": {
+    "electron": true,
+    "electron-winstaller": true
+  }
+}
